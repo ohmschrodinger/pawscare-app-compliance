@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Email Verification - PawsCare</title>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, applyActionCode } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiBMIMyqOAgVBr70LdgtLjw0mNekWLSVk",
+      authDomain: "pawscareadoption.firebaseapp.com",
+      projectId: "pawscareadoption",
+      storageBucket: "pawscareadoption.firebasestorage.app",
+      messagingSenderId: "722703513140",
+      appId: "1:722703513140:web:ffa9b8acfee5f1198fbc61"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const params = new URLSearchParams(window.location.search);
+    const oobCode = params.get("oobCode");
+
+    async function verifyEmail() {
+      try {
+        await applyActionCode(auth, oobCode);
+        document.getElementById("status").innerText = "Email verified successfully! You can close this page.";
+      } catch (error) {
+        document.getElementById("status").innerText = "Invalid or expired verification link.";
+      }
+    }
+
+    verifyEmail();
+  </script>
+</head>
+
+<body style="font-family: Arial; text-align: center; margin-top: 100px;">
+  <h2 id="status">Verifying your email...</h2>
+</body>
+</html>
